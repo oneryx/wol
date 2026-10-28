@@ -1,0 +1,12 @@
+.git
+.DS_Store
+wol
+data
+Dockerfile
+.dockerignore
+Taskfile.yml
+README.md
+.github
+.claude
+docs
+LICENSE

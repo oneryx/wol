@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+
+  default:
+    desc: Run in development mode
+    cmds:
+      - go run -tags dev .
+
+  build:
+    desc: Build Application for current machine
+    cmds:
+      - go build .
+
+  test:
+    desc: Run unit tests
+    cmds:
+      - go test ./...
+

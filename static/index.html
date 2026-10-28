@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Wake on LAN</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></svg>
+      <div>
+        <h1>Wake on LAN</h1>
+        <p id="summary" class="muted">Loading…</p>
+      </div>
+    </div>
+    <button id="add-btn" class="btn btn-primary" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      Add device
+    </button>
+  </header>
+
+  <main>
+    <div id="devices" class="grid"></div>
+    <div id="empty" class="empty" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <h2>No devices yet</h2>
+      <p class="muted">Add a machine with its MAC address to wake it from here.</p>
+      <button class="btn btn-primary" type="button" data-action="add">Add your first device</button>
+    </div>
+  </main>
+
+  <dialog id="device-dialog">
+    <form id="device-form" method="dialog" novalidate>
+      <h2 id="dialog-title">Add device</h2>
+      <label class="field">
+        <span>Name</span>
+        <input name="name" required placeholder="e.g. TrueNAS" autocomplete="off">
+      </label>
+      <label class="field">
+        <span>MAC address</span>
+        <input name="mac" required placeholder="e.g. 52:54:00:12:34:56" autocomplete="off" spellcheck="false" class="mono">
+      </label>
+      <div class="row">
+        <label class="field grow">
+          <span>Broadcast IP</span>
+          <input name="broadcast" placeholder="255.255.255.255" autocomplete="off" class="mono">
+        </label>
+        <label class="field port">
+          <span>Port</span>
+          <input name="port" type="number" min="1" max="65535" placeholder="9">
+        </label>
+      </div>
+      <p class="hint">Use the subnet's broadcast address (e.g. 192.168.1.255) if the default doesn't reach the device. Port is usually 9 or 7.</p>
+      <label class="field">
+        <span>Host <em class="muted">(optional)</em></span>
+        <input name="host" placeholder="e.g. 192.168.1.20 or nas.lan:22" autocomplete="off" spellcheck="false" class="mono">
+      </label>
+      <p class="hint">Probed over TCP to show online status. Add <code>:port</code> to probe one specific port.</p>
+      <p id="form-error" class="form-error" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn" data-action="close">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="save-btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm-dialog">
+    <form method="dialog">
+      <h2>Delete device?</h2>
+      <p id="confirm-text" class="muted"></p>
+      <div class="dialog-actions">
+        <button value="cancel" class="btn">Cancel</button>
+        <button value="ok" class="btn btn-danger">Delete</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
